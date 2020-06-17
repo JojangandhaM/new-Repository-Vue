@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+    <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <div id="my-todo-list">
+        <form class="add" v-if="isAddBtnClicked" v-on:submit.prevent="addNewTodo">
+          <label class="labelclass" for="new-todo">Add a todo task:</label>
+          <input class="inputclass"
+            autocomplete="off"
+            v-model="newTodoText"
+            id="new-todo"
+            placeholder="Please add a new item."
+          >
+          <button>Add</button>
+        </form>
+        <form class="edit" v-if="isEditClicked" v-on:submit.prevent="edittingTodoitemDone">
+            <label class="labelclass" for="edit-todo">Edit a todo item:</label>
+            <input class="inputclass"
+              autocomplete="off"
+              v-model="editTodoText"
+              id="edit-todo"
+              placeholder="Please edit the item."
+            >
+            <button>Done</button>
+          </form>
+        
+        <div class="list">
+            <label v-if="!isAllTaskDeleted && todos.length !== 0" class="listlabel">List of All task created</label>
+            <ul>
+                <li
+                  is="todo-item"
+                  v-for="(todo, index) in todos"
+                  v-bind:key="todo.id"
+                  v-bind:title="todo.title"
+                  v-bind:todo="todo"
+                  v-on:delete="todos.splice(index, 1)"
+                  v-on:edit="editItem"
+                  v-on:complete="completeTask"
+                ></li>
+              </ul>
+        </div>
+        <div class="operations">
+            <div class="deleteall" v-if="(!isAllTaskDeleted && todos.length !== 0)">
+                <button @click="deleteAllTask">Delete All Item</button>
+            </div>
+            <div class="taskdeleted" v-else>
+                <label>All task has been deleted. Please add new task. </label>
+            </div>
+            <div v-bind:class="{addtask: true, addadditionalcls: !isAllTaskDeleted && todos.length !== 0}">
+                <button class="addbtn" @click="addbtnClicked">Add Task</button>
+            </div>
+        </div>        
+      </div>
+<script>
+    Vue.component('todo-item', {
+    template: '\
+      <li>\
+        {{ title }}\
+        <button v-on:click="$emit(\'delete\')">Delete</button>\
+        <button v-if=\"!todo.isTaskComplete\" v-on:click="$emit(\'edit\', todo.id, todo.title)">Edit</button>\
+        <button v-else disabled v-on:click="$emit(\'edit\')">Edit</button>\
+        <button v-if=\"!todo.isTaskComplete\" v-on:click="$emit(\'complete\', todo.id)">Complete</button>\
+        <button v-if=\"todo.isTaskComplete\" disabled v-on:click="$emit(\'complete\')">Completed</button>\
+      </li>\
+    ',
+    props: ['title', 'todo']
+  });
+  
+  new Vue({
+    el: '#my-todo-list',
+    data: {
+      newTodoText: '',
+      editTodoText: '',
+      isEditClicked: false,
+      editableItem: null,
+      isAllTaskDeleted: false,
+      isAddBtnClicked: false,
+      todos: [
+        {
+          id: 1,
+          title: 'Buy Books',
+          isTaskComplete: false
+        },
+        {
+          id: 2,
+          title: 'Dusting',
+          isTaskComplete: false
+        },
+        {
+          id: 3,
+          title: 'Prepare Food',
+          isTaskComplete: false
+        }
+      ],
+      nextTodoId: 4
+    },
+    methods: {
+      addNewTodo: function () {
+          if(this.newTodoText) {
+            if(this.isAllTaskDeleted) {
+                this.nextTodoId = 1;
+                this.todos.push({
+                    id: this.nextTodoId++,
+                    title: this.newTodoText
+                });
+            } else {
+                this.todos.push({
+                    id: this.nextTodoId++,
+                    title: this.newTodoText
+                });
+            }
+          }       
+        this.newTodoText = '';
+        this.isAddBtnClicked = false;
+        this.isAllTaskDeleted = false;
+      },
+      editItem: function(itemId, itemText) {
+        this.editTodoText = itemText;
+        this.editableItem = itemId;
+        this.isEditClicked = true;
+      },
+      edittingTodoitemDone: function() {
+        this.todos[this.editableItem-1].title = this.editTodoText;
+        this.editTodoText = '';
+        this.editableItem = null;
+        this.isEditClicked = false;
+      },
+      deleteAllTask: function() {
+          this.todos = [];
+          this.isAllTaskDeleted = true;
+      },
+      addbtnClicked: function() {
+        this.isAddBtnClicked = true;
+      },
+      completeTask: function(itemId) {
+        this.todos[itemId-1].isTaskComplete = true;
+      }
+
+    }
+  });
+</script>
+</body>
+</html>

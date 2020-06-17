@@ -1,0 +1,67 @@
+.ul li {
+    margin: 5px;
+}
+
+li {
+    font-size: 18px;
+    font-family: monospace;
+}
+
+button {
+    font-size: 16px;
+    background-color: #ecdbdb;
+    padding: 5px;
+    box-shadow: 0 1px 1px black;
+    margin: 10px;
+    border-radius: 4px;
+}
+
+.inputclass {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+
+.labelclass {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.list, .add, .edit {
+    width: 50%;
+    padding: 15px;
+    margin: 5px;
+    border: 2px;
+
+}
+
+.deleteall, .taskdeleted {
+    padding: 5px;
+    margin: 5px;
+}
+.addtask {
+    padding: 5px;
+    margin: 5px;
+}
+.addadditionalcls {
+    padding-top: 15px;
+}
+
+.taskdeleted, .listlabel {
+    font-size: 20px;
+    font-weight: normal;
+    font-family: monospace;
+}
+
+.operations{
+    display: flex;
+}
+
+.addbtn {
+    margin: 0px;
+}
+
