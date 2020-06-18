@@ -1,18 +1,4 @@
-Vue.component('todo-item', {
-    template: '\
-      <li>\
-        {{ title }}\
-        <button v-on:click="$emit(\'delete\')">Delete</button>\
-        <button v-if=\"!todo.isTaskComplete\" v-on:click="$emit(\'edit\', todo.id, todo.title)">Edit</button>\
-        <button v-else disabled v-on:click="$emit(\'edit\')">Edit</button>\
-        <button v-if=\"!todo.isTaskComplete\" v-on:click="$emit(\'complete\', todo.id)">Complete</button>\
-        <button v-if=\"todo.isTaskComplete\" disabled v-on:click="$emit(\'complete\', todo.id)">Completed</button>\
-      </li>\
-    ',
-    props: ['title', 'todo']
-  });
-  
-  new Vue({
+new Vue({
     el: '#todo-list-example',
     data: {
       newTodoText: '',
@@ -84,5 +70,19 @@ Vue.component('todo-item', {
       }
 
     }
+  });
+
+  Vue.component('todo-item', {
+    template: '\
+      <li>\
+        {{ title }}\
+        <button v-on:click="$emit(\'delete\')">Delete</button>\
+        <button v-if=\"!todo.isTaskComplete\" v-on:click="$emit(\'edit\', todo.id, todo.title)">Edit</button>\
+        <button v-else disabled v-on:click="$emit(\'edit\')">Edit</button>\
+        <button v-if=\"!todo.isTaskComplete\" v-on:click="$emit(\'complete\', todo.id)">Complete</button>\
+        <button v-if=\"todo.isTaskComplete\" disabled v-on:click="$emit(\'complete\', todo.id)">Completed</button>\
+      </li>\
+    ',
+    props: ['title', 'todo']
   });
   
